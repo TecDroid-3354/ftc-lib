@@ -7,13 +7,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Base class for all subsystems in the library
  */
 public class Subsystem {
-    private boolean loggingIsEnabled = false;
-
-    private final String name;
+    @Getter @Setter private boolean loggingEnabled = false;
+    @Getter private final String name;
     private final Telemetry telemetry;
     private final ArrayList<Pair<String, Supplier<Object>>> logItems;
 
@@ -23,10 +25,6 @@ public class Subsystem {
         this.logItems = new ArrayList<>();
 
         SubsystemCollection.getInstance().addSubsystem(this);
-    }
-
-    public String getName() {
-        return name;
     }
 
     /**
@@ -42,7 +40,7 @@ public class Subsystem {
      * Logs all registered entities
      */
     public final void log() {
-        if (!this.loggingIsEnabled) {
+        if (!this.loggingEnabled) {
             return;
         }
 
@@ -64,19 +62,4 @@ public class Subsystem {
             telemetry.addData(String.format("%s %s", separator, item.first), item.second.get());
         }
     }
-
-    /**
-     * Enable logging for this subsystem
-     */
-    public final void enableLogging() {
-        this.loggingIsEnabled = true;
-    }
-
-    /**
-     * Disable logging for this subsystem
-     */
-    public final void disableLogging() {
-        this.loggingIsEnabled = false;
-    }
-
 }
