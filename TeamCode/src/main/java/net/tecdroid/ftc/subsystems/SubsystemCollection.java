@@ -5,7 +5,11 @@ import java.util.HashMap;
 
 public class SubsystemCollection {
     private static SubsystemCollection INSTANCE = null;
-    private static HashMap<String, Subsystem> subsystems;
+    private final HashMap<String, Subsystem> subsystems;
+
+    private SubsystemCollection() {
+        this.subsystems = new HashMap<>();
+    }
 
     public static SubsystemCollection getInstance() {
         if (INSTANCE == null) {
@@ -14,7 +18,7 @@ public class SubsystemCollection {
         return INSTANCE;
     }
 
-    public static void addSubsystem(Subsystem subsystem) {
+    public void addSubsystem(Subsystem subsystem) {
         if (subsystems.containsKey(subsystem.getName())) {
             return;
         }
@@ -22,7 +26,7 @@ public class SubsystemCollection {
         subsystems.put(subsystem.getName(), subsystem);
     }
 
-    public static void logSubsystems() {
+    public void logSubsystems() {
         for (Subsystem subsystem : subsystems.values()) {
             subsystem.log();
         }

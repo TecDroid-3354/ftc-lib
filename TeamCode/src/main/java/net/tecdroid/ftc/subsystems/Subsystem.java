@@ -22,7 +22,7 @@ public class Subsystem {
         this.telemetry = telemetry;
         this.logItems = new ArrayList<>();
 
-        SubsystemCollection.addSubsystem(this);
+        SubsystemCollection.getInstance().addSubsystem(this);
     }
 
     public String getName() {
