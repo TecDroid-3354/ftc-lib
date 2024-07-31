@@ -1,4 +1,4 @@
-package net.tecdroid.ftc.drivetrain;
+package net.tecdroid.ftc.subsystems.drivetrain;
 
 import org.joml.Vector2d;
 

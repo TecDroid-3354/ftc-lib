@@ -1,29 +1,35 @@
-package net.tecdroid.ftc.drivetrain;
+package net.tecdroid.ftc.subsystems.drivetrain;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import net.tecdroid.ftc.standards.DrivetrainStandards;
+import net.tecdroid.ftc.subsystems.Subsystem;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.joml.Vector2d;
 
-public class MecanumDrivetrain implements Drivetrain {
+/**
+ * Represents a 4-wheel mecanum drive. Requires 4 motors to work.
+ */
+public class MecanumDrivetrain extends Subsystem implements Drivetrain {
 
     private final DcMotorEx frontRight;
     private final DcMotorEx frontLeft;
     private final DcMotorEx backLeft;
     private final DcMotorEx backRight;
 
-    private final Telemetry telemetry;
-
     public MecanumDrivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
+        super("Mecanum Drivetrain", telemetry);
         this.frontRight = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.FRONT_RIGHT_MOTOR_NAME);
         this.frontLeft  = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.FRONT_LEFT_MOTOR_NAME);
         this.backLeft   = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.BACK_LEFT_MOTOR_NAME);
         this.backRight  = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.BACK_RIGHT_MOTOR_NAME);
 
-        this.telemetry = telemetry;
+        this.registerLoggableEntity("FR Power", frontRight::getPower);
+        this.registerLoggableEntity("FL Power", frontLeft::getPower);
+        this.registerLoggableEntity("BL Power", backLeft::getPower);
+        this.registerLoggableEntity("BR Power", backRight::getPower);
     }
 
     @Override
