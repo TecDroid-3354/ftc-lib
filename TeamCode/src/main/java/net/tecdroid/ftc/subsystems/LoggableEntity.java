@@ -13,18 +13,18 @@ import lombok.Setter;
 /**
  * Base class for all subsystems in the library
  */
-public class Subsystem {
+public class LoggableEntity {
     @Getter @Setter private boolean loggingEnabled = false;
     @Getter private final String name;
     private final Telemetry telemetry;
     private final ArrayList<Pair<String, Supplier<Object>>> logItems;
 
-    protected Subsystem(String subsystemName, Telemetry telemetry) {
+    protected LoggableEntity(String subsystemName, Telemetry telemetry) {
         this.name = subsystemName;
         this.telemetry = telemetry;
         this.logItems = new ArrayList<>();
 
-        SubsystemCollection.getInstance().addSubsystem(this);
+        LoggableEntityManager.getInstance().addEntity(this);
     }
 
     /**
@@ -32,7 +32,7 @@ public class Subsystem {
      * @param name The name with which this entry will be presented
      * @param supplier A supplier which should return the value to be tracked
      */
-    public final void registerLoggableEntity(String name, Supplier<Object> supplier) {
+    public final void addEntry(String name, Supplier<Object> supplier) {
         logItems.add(new Pair<>(name, supplier));
     }
 
