@@ -24,7 +24,7 @@ public class TestOpMode extends OpMode {
 
     @Override
     public void loop() {
-        SubsystemCollection.logSubsystems();
+        SubsystemCollection.getInstance().logSubsystems();
 
         final Vector2d linearVelocity = new Vector2d(
                 -gamepad1.left_stick_y,
