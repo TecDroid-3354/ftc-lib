@@ -19,8 +19,8 @@ public class MecanumDrivetrain extends LoggableEntity implements Drivetrain {
     private final DcMotorEx backLeft;
     private final DcMotorEx backRight;
 
-    public MecanumDrivetrain(HardwareMap hardwareMap, Telemetry telemetry) {
-        super("Mecanum Drivetrain", telemetry);
+    public MecanumDrivetrain(HardwareMap hardwareMap) {
+        super("Mecanum Drivetrain");
         this.frontRight = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.FRONT_RIGHT_MOTOR_NAME);
         this.frontLeft  = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.FRONT_LEFT_MOTOR_NAME);
         this.backLeft   = hardwareMap.get(DcMotorEx.class, DrivetrainStandards.BACK_LEFT_MOTOR_NAME);

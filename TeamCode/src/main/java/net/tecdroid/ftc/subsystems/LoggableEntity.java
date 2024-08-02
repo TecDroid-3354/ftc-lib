@@ -16,12 +16,10 @@ import lombok.Setter;
 public class LoggableEntity {
     @Getter @Setter private boolean loggingEnabled = false;
     @Getter private final String name;
-    private final Telemetry telemetry;
     private final ArrayList<Pair<String, Supplier<Object>>> logItems;
 
-    protected LoggableEntity(String subsystemName, Telemetry telemetry) {
+    protected LoggableEntity(String subsystemName) {
         this.name = subsystemName;
-        this.telemetry = telemetry;
         this.logItems = new ArrayList<>();
 
         LoggableEntityManager.getInstance().addEntity(this);
@@ -39,7 +37,7 @@ public class LoggableEntity {
     /**
      * Logs all registered entities
      */
-    public final void log() {
+    public final void log(final Telemetry telemetry) {
         if (!this.loggingEnabled) {
             return;
         }
@@ -49,7 +47,7 @@ public class LoggableEntity {
             return;
         }
 
-        this.telemetry.addLine(String.format("%c %s", '\u250C', name));
+        telemetry.addLine(String.format("%c %s", '\u250C', name));
 
         for (int i = 0; i < logItems.size(); ++i) {
             Pair<String, Supplier<Object>> item = logItems.get(i);

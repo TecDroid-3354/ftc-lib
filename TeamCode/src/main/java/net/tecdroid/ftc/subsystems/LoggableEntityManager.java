@@ -1,5 +1,7 @@
 package net.tecdroid.ftc.subsystems;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -34,10 +36,12 @@ public class LoggableEntityManager {
 
     }
 
-    public void logSubsystems() {
+    public void logSubsystems(Telemetry telemetry) {
         for (LoggableEntity loggableEntity : entities.values()) {
-            loggableEntity.log();
+            loggableEntity.log(telemetry);
         }
+
+        telemetry.update();
     }
 
     private String modifyDuplicateMarker(String value) {

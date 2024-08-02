@@ -2,39 +2,41 @@ package net.tecdroid.ftc.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.LED;
 
-import net.tecdroid.ftc.hardware.IMUWrapper;
-import net.tecdroid.ftc.input.GamepadWrapper;
-import net.tecdroid.ftc.standards.HardwareStandards;
+import net.tecdroid.ftc.hardware.IMU;
+import net.tecdroid.ftc.input.Gamepad;
 import net.tecdroid.ftc.subsystems.LoggableEntityManager;
 import net.tecdroid.ftc.subsystems.drivetrain.MecanumDrivetrain;
 import net.tecdroid.ftc.util.MathUtil;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.joml.Vector2d;
 
 @TeleOp(name = "Test")
 public class TestOpMode extends OpMode {
 
     private MecanumDrivetrain drivetrain = null;
-    private GamepadWrapper gamepad = null;
-    private IMUWrapper imu = null;
+    private Gamepad gamepad = null;
+    private IMU imu = null;
+    private LED signal0Led = null;
+    private LED signal1Led = null;
 
     @Override
     public void init() {
-        drivetrain = new MecanumDrivetrain(hardwareMap, telemetry);
-        gamepad = new GamepadWrapper(gamepad1, "Gamepad", telemetry);
-        imu = new IMUWrapper(hardwareMap, telemetry);
+        drivetrain = new MecanumDrivetrain(hardwareMap);
+        imu = new IMU(hardwareMap);
+        gamepad = new Gamepad(gamepad1);
+
+        signal0Led = hardwareMap.led.get("signal0");
+        signal1Led = hardwareMap.led.get("signal1");
 
         drivetrain.setLoggingEnabled(true);
-        gamepad.setLoggingEnabled(true);
         imu.setLoggingEnabled(true);
     }
 
     @Override
     public void loop() {
-        LoggableEntityManager.getInstance().logSubsystems();
+        LoggableEntityManager.getInstance().logSubsystems(telemetry);
         gamepad.update();
 
         final Vector2d linearVelocity = MathUtil.swapVectorComponents(gamepad.getLeftJoystickPosition());
@@ -45,8 +47,16 @@ public class TestOpMode extends OpMode {
 
         drivetrain.drive(rotatedVelocity, angularVelocity);
 
-        if (gamepad.getTopButtonPressed()) {
-            imu.resetZAxisAngle();
+        if (gamepad.getTopButtonTapped()) {
+            signal0Led.enable(true);
+        } else
+        if (gamepad.getTopButtonHeld()) {
+            signal1Led.enable(true);
+        } else if (gamepad.getTopButtonReleased()) {
+            signal0Led.enable(false);
+            signal1Led.enable(false);
         }
+
+
     }
 }

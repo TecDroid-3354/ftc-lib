@@ -1,35 +1,25 @@
 package net.tecdroid.ftc.input;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import net.tecdroid.ftc.standards.GamepadStandards;
-import net.tecdroid.ftc.subsystems.LoggableEntity;
 
 import static net.tecdroid.ftc.util.MathUtil.isInsideRange;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.joml.Vector2d;
 
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-public final class GamepadWrapper extends LoggableEntity {
-    @Getter @Setter private int framesToConsiderHeld = 3;
+public final class Gamepad {
+    @Getter @Setter private int framesToConsiderHeld = 6;
     @Getter @Setter private int framesToReleaseTapped = 1;
 
     private final int[] framesPressed = new int[GamepadStandards.Button.values().length];
     private final int[] framesTapped = new int[framesPressed.length];
 
-    private final Gamepad gamepad;
+    private final com.qualcomm.robotcore.hardware.Gamepad gamepad;
 
-    public GamepadWrapper(Gamepad gamepad, String controllerName, Telemetry telemetry) {
-        super(controllerName, telemetry);
+    public Gamepad(com.qualcomm.robotcore.hardware.Gamepad gamepad) {
         this.gamepad = gamepad;
-
-        this.addEntry("Top Held", this::getTopButtonHeld);
-        this.addEntry("Top Tapped", this::getTopButtonTapped);
     }
 
     public void update() {
