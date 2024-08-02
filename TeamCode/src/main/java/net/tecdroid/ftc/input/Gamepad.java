@@ -9,7 +9,7 @@ import org.joml.Vector2d;
 import lombok.Getter;
 import lombok.Setter;
 
-public final class Gamepad {
+public class Gamepad {
     @Getter @Setter private int framesToConsiderHeld = 6;
     @Getter @Setter private int framesToReleaseTapped = 1;
 
